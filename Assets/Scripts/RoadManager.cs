@@ -4,12 +4,26 @@ using UnityEngine;
 public class RoadManager : MonoBehaviour
 {
     // Script settings
-    public int[,] obstacles; // 2D array for obstacles [lane, position]
+    public int[,] obstacles; // [lane, position]
     public int numLanes = 2;
     public int positionsPerLane = 50; // Length of each lane
-    public float positionCheckFrequncy = 1f; // Delay between player position checks
+    public float positionCheckFrequncy = 1f; // Delay between each player position check
 
     public PlayerScript playerScript;
+
+    // Temp
+    public bool tempBool;
+    public GameObject truckPrefab;
+    public Vector3 spawnPos;
+
+    void Update()
+    {
+        if (tempBool)
+        {
+            tempBool = false;
+            SpawnObstacle(truckPrefab, spawnPos);
+        }
+    }
 
     void Start()
     {
@@ -43,5 +57,10 @@ public class RoadManager : MonoBehaviour
 
             if (obstacleIndex == 1) playerScript.OnCrash();
         }
+    }
+
+    private void SpawnObstacle(GameObject obstaclePrefab, Vector3 spawnPosition)
+    {
+        GameObject newObstacle = Instantiate(obstaclePrefab, spawnPosition, Quaternion.identity);
     }
 }
